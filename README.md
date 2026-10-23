@@ -1,1 +1,1 @@
-Template repository for webpack based projects
+The classic game Battleship as a web app
