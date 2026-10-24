@@ -5,9 +5,11 @@ class Ship {
   /**
    * Constructor
    * @param {Number} length The length of the ship
+   * @param {String} number The ship's number
    */
-  constructor(length) {
+  constructor(length, number) {
     this.length = length;
+    this.number = number;
     this.hitsTaken = 0;
   }
 
