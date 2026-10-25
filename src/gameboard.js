@@ -38,6 +38,31 @@ class Gameboard {
   }
 
   /**
+   * Receives an attack on the board and registers the hit
+   * to the correct ship, or the empty spot
+   * @param {Number} y The y-coordinate of the attack
+   * @param {Number} x The x-coordinate of the attack
+   */
+  receiveAttack(y, x) {
+    //Coordinates are out of range
+    if (x < 0 || x > 9 || y < 0 || y > 9) return;
+    //Coordinate was already hit
+    if (this.board[y][x] === "X" || this.board[y][x] === "O") return;
+
+    //Empty spot hit
+    if (this.board[y][x] === "E") this.board[y][x] = "X";
+    //Ship hit
+    else {
+      const hitShip = this.activeShips.find(
+        (ship) => ship.number === this.board[y][x],
+      );
+      hitShip.hitsTaken++;
+
+      this.board[y][x] = "O";
+    }
+  }
+
+  /**
    * Creates a new empty board with the size of 10 x 10
    * @returns The created board
    */

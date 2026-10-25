@@ -136,3 +136,90 @@ describe("Function Test: placeNewShip", () => {
     ]);
   });
 });
+
+describe("Function Test: receiveAttack", () => {
+  const gameboard = new Gameboard();
+  gameboard.placeNewShip(0, 0, "horizontal", 5);
+  gameboard.placeNewShip(9, 5, "horizontal", 5);
+
+  test("Attack is out of bounds", () => {
+    gameboard.receiveAttack(0, 10);
+    gameboard.receiveAttack(0, -1);
+    expect(gameboard.board[0]).toEqual([
+      "1",
+      "1",
+      "1",
+      "1",
+      "1",
+      "E",
+      "E",
+      "E",
+      "E",
+      "E",
+    ]);
+  });
+
+  test("Attack hits an empty spot", () => {
+    gameboard.receiveAttack(0, 7);
+    gameboard.receiveAttack(0, 9);
+    expect(gameboard.board[0]).toEqual([
+      "1",
+      "1",
+      "1",
+      "1",
+      "1",
+      "E",
+      "E",
+      "X",
+      "E",
+      "X",
+    ]);
+
+    gameboard.receiveAttack(9, 0);
+    expect(gameboard.board[9]).toEqual([
+      "X",
+      "E",
+      "E",
+      "E",
+      "E",
+      "2",
+      "2",
+      "2",
+      "2",
+      "2",
+    ]);
+  });
+
+  test("Attack hits a ship", () => {
+    gameboard.receiveAttack(0, 0);
+    gameboard.receiveAttack(0, 2);
+    expect(gameboard.board[0]).toEqual([
+      "O",
+      "1",
+      "O",
+      "1",
+      "1",
+      "E",
+      "E",
+      "X",
+      "E",
+      "X",
+    ]);
+    expect(gameboard.activeShips[0].hitsTaken).toBe(2);
+
+    gameboard.receiveAttack(9, 9);
+    expect(gameboard.board[9]).toEqual([
+      "X",
+      "E",
+      "E",
+      "E",
+      "E",
+      "2",
+      "2",
+      "2",
+      "2",
+      "O",
+    ]);
+    expect(gameboard.activeShips[1].hitsTaken).toBe(1);
+  });
+});
