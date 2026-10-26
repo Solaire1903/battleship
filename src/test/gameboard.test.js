@@ -205,7 +205,7 @@ describe("Function Test: receiveAttack", () => {
       "E",
       "X",
     ]);
-    expect(gameboard.activeShips[0].hitsTaken).toBe(2);
+    expect(gameboard.ships[0].hitsTaken).toBe(2);
 
     gameboard.receiveAttack(9, 9);
     expect(gameboard.board[9]).toEqual([
@@ -220,6 +220,26 @@ describe("Function Test: receiveAttack", () => {
       "2",
       "O",
     ]);
-    expect(gameboard.activeShips[1].hitsTaken).toBe(1);
+    expect(gameboard.ships[1].hitsTaken).toBe(1);
+  });
+});
+
+describe("Function Test: allShipsSunk", () => {
+  const gameboard = new Gameboard();
+
+  test("Not all ships sunk yet", () => {
+    gameboard.placeNewShip(0, 0, "vertical", 3);
+    gameboard.placeNewShip(5, 0, "horizontal", 3);
+    expect(gameboard.allShipsSunk()).toBeFalsy();
+  });
+
+  test("All ships sunk", () => {
+    gameboard.receiveAttack(0, 0);
+    gameboard.receiveAttack(1, 0);
+    gameboard.receiveAttack(2, 0);
+    gameboard.receiveAttack(5, 0);
+    gameboard.receiveAttack(5, 1);
+    gameboard.receiveAttack(5, 2);
+    expect(gameboard.allShipsSunk()).toBeTruthy();
   });
 });

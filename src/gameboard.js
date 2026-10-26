@@ -9,12 +9,12 @@ class Gameboard {
    */
   constructor() {
     this.board = this.#createNewBoard();
-    this.activeShips = [];
+    this.ships = [];
   }
 
   /**
    * Places a new ship on the given coordinates, if possible,
-   * and adds it to the list of active ships
+   * and adds it to the list of ships
    * @param {Number} y The y coordinate
    * @param {Number} x The x coordinate
    * @param {String} orientation The orientation of the ship
@@ -23,7 +23,7 @@ class Gameboard {
   placeNewShip(y, x, orientation, shipLength) {
     if (!this.#canPlaceShip(y, x, orientation, shipLength)) return;
 
-    const shipNumber = (this.activeShips.length + 1).toString();
+    const shipNumber = (this.ships.length + 1).toString();
     if (orientation === "horizontal") {
       for (let i = 0; i < shipLength; i++) {
         this.board[y][x + i] = shipNumber;
@@ -34,7 +34,7 @@ class Gameboard {
       }
     }
 
-    this.activeShips.push(new Ship(shipLength, shipNumber));
+    this.ships.push(new Ship(shipLength, shipNumber));
   }
 
   /**
@@ -53,13 +53,21 @@ class Gameboard {
     if (this.board[y][x] === "E") this.board[y][x] = "X";
     //Ship hit
     else {
-      const hitShip = this.activeShips.find(
+      const hitShip = this.ships.find(
         (ship) => ship.number === this.board[y][x],
       );
       hitShip.hitsTaken++;
 
       this.board[y][x] = "O";
     }
+  }
+
+  /**
+   * Checks if all ships on the board are sunk
+   * @returns True if all ships are sunk, false otherwise
+   */
+  allShipsSunk() {
+    return this.ships.every((ship) => ship.isSunk());
   }
 
   /**
