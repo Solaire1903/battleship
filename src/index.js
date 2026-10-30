@@ -7,6 +7,7 @@ const loadApp = () => {
   const player2 = new ComputerPlayer();
   const ui = new UI();
 
+  ui.renderInitialBoards();
   ui.renderGameboard(player1.gameboard.board, 1);
   ui.renderGameboard(player2.gameboard.board, 2);
 };

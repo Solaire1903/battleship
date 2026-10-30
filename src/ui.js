@@ -3,6 +3,39 @@
  */
 class UI {
   /**
+   * Renders the initial numbers and letters of the boards, as well as
+   * the empty ship areas, to the page
+   */
+  renderInitialBoards() {
+    const gameboards = document.querySelectorAll(".gameboard");
+    let playerNumber = 0;
+    gameboards.forEach((gameboard) => {
+      playerNumber++;
+
+      gameboard.appendChild(document.createElement("div"));
+
+      for (let i = 1; i < 11; i++) {
+        const cell = document.createElement("div");
+        cell.classList.add("cell");
+        cell.textContent = String.fromCharCode(64 + i);
+        gameboard.appendChild(cell);
+      }
+
+      for (let i = 1; i < 11; i++) {
+        const cell = document.createElement("div");
+        cell.classList.add("cell");
+        cell.textContent = i;
+        gameboard.appendChild(cell);
+      }
+
+      const shipArea = document.createElement("div");
+      shipArea.classList.add("ship-area");
+      shipArea.id = `player-${playerNumber}-ship-area`;
+      gameboard.appendChild(shipArea);
+    });
+  }
+
+  /**
    * Renders a given players gameboard to the page
    * @param {Array<String>} gameboardData The gameboard data to render
    * @param {Number} playerNumber The player number
