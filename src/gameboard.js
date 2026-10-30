@@ -17,14 +17,15 @@ class Gameboard {
    * and adds it to the list of ships
    * @param {Number} y The y coordinate
    * @param {Number} x The x coordinate
-   * @param {String} orientation The orientation of the ship
+   * @param {Boolean} isHorizontal Should be true if the ship is to be placed
+   * horizontally
    * @param {Number} shipLength The length of the ship
    */
-  placeNewShip(y, x, orientation, shipLength) {
-    if (!this.#canPlaceShip(y, x, orientation, shipLength)) return;
+  placeNewShip(y, x, isHorizontal, shipLength) {
+    if (!this.#canPlaceShip(y, x, isHorizontal, shipLength)) return;
 
     const shipNumber = (this.ships.length + 1).toString();
-    if (orientation === "horizontal") {
+    if (isHorizontal) {
       for (let i = 0; i < shipLength; i++) {
         this.board[y][x + i] = shipNumber;
       }
@@ -93,15 +94,16 @@ class Gameboard {
    * Checks if a ship can be placed on the given coordinates
    * @param {Number} y The y coordinate
    * @param {Number} x The x coordinate
-   * @param {String} orientation The orientation of the ship
+   * @param {Boolean} isHorizontal Should be true if the ship is to be placed
+   * horizontally
    * @param {Number} shipLength The length of the ship
    * @returns True if the ship can be placed, false otherwise
    */
-  #canPlaceShip(y, x, orientation, shipLength) {
+  #canPlaceShip(y, x, isHorizontal, shipLength) {
     //Coordinates out of range
     if (x < 0 || x > 9 || y < 0 || y > 9) return false;
 
-    if (orientation === "horizontal") {
+    if (isHorizontal) {
       //Ship too long
       if (x + (shipLength - 1) > 9) return false;
 
