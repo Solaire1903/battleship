@@ -1,3 +1,79 @@
+:root {
+  --header-color: rgb(37, 68, 141);
+  --game-area-background-color: lightblue;
+  --ship-area-color: beige;
+  --header-text-color: rgb(236, 183, 108);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-  background-color: rebeccapurple;
+  min-height: 100vh;
+
+  display: grid;
+  grid-template-rows: 1fr 10fr;
+}
+
+header {
+  background-color: var(--header-color);
+  color: var(--header-text-color);
+  font-size: 1.1em;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#game-area {
+  background-color: var(--game-area-background-color);
+
+  display: grid;
+  grid-template-rows: 1fr 10fr;
+}
+
+#gameboard-area {
+  grid-row: 2 / span 1;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.player-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gameboard {
+  height: 660px;
+  width: 660px;
+
+  display: grid;
+  grid-template-columns: repeat(1fr, 11);
+  grid-template-rows: repeat(1fr, 11);
+}
+
+.cell {
+  width: 60px;
+  height: 60px;
+  font-size: 1.5em;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ship-area {
+  background-color: var(--ship-area-color);
+
+  grid-column: 2 / span 10;
+  grid-row: 2 / span 10;
+
+  display: grid;
+  grid-template-columns: repeat(1fr, 10);
+  grid-template-rows: repeat(1fr, 10);
 }
