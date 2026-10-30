@@ -2,7 +2,13 @@
  * Represents the User Interface of the app
  */
 class UI {
-  renderGameboard(gameboardData, playerNumber) {
+  /**
+   * Renders a given players gameboard to the page
+   * @param {Array<String>} gameboardData The gameboard data to render
+   * @param {Number} playerNumber The player number
+   * @param {Boolean} shipsHidden True if ships should be hidden
+   */
+  renderGameboard(gameboardData, playerNumber, shipsHidden) {
     const gameboard = document.getElementById(
       `player-${playerNumber}-ship-area`,
     );
@@ -26,7 +32,7 @@ class UI {
             cell.style.backgroundColor = "blue";
             break;
           default:
-            cell.style.backgroundColor = "grey";
+            if (!shipsHidden) cell.style.backgroundColor = "grey";
         }
 
         gameboard.appendChild(cell);
