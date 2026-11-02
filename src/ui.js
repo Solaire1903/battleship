@@ -46,6 +46,8 @@ class UI {
       `player-${playerNumber}-ship-area`,
     );
 
+    gameboard.innerHTML = "";
+
     for (let y = 0; y < 10; y++) {
       for (let x = 0; x < 10; x++) {
         const cell = document.createElement("button");
@@ -71,6 +73,42 @@ class UI {
         gameboard.appendChild(cell);
       }
     }
+  }
+
+  /**
+   * Creates a new event listener
+   * @param {Function} callback A callback function to be used by the listener
+   * @param {String} listenerType The type of event listener to create
+   */
+  createEventListener(callback, listenerType) {
+    switch (listenerType) {
+      case "GAMEBOARD1":
+        this.#createGameboardEventListener(callback, 1);
+        break;
+      case "GAMEBOARD2":
+        this.#createGameboardEventListener(callback, 2);
+        break;
+    }
+  }
+
+  /**
+   * Creates a click event listener for a given players board
+   * @param {Function} updateBoard Callback function that updates the board
+   * @param {Number} playerNumber The number of the board's player
+   */
+  #createGameboardEventListener(updateBoard, playerNumber) {
+    const gameboard = document.getElementById(
+      `player-${playerNumber}-ship-area`,
+    );
+
+    gameboard.addEventListener("click", (event) => {
+      if (event.target.className !== "cell ship-cell") return;
+
+      const cell = event.target;
+      const x = cell.dataset.x;
+      const y = cell.dataset.y;
+      updateBoard(y, x, playerNumber);
+    });
   }
 }
 
