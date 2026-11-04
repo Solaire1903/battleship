@@ -73,7 +73,12 @@ class Gameboard {
     //Coordinates are out of range
     if (x < 0 || x > 9 || y < 0 || y > 9) return;
     //Coordinate was already hit
-    if (this.board[y][x] === "X" || this.board[y][x] === "O") return;
+    if (
+      this.board[y][x] === "X" ||
+      this.board[y][x] === "S" ||
+      this.board[y][x].includes("O")
+    )
+      return;
 
     //Empty spot hit
     if (this.board[y][x] === "E") this.board[y][x] = "X";
@@ -83,8 +88,12 @@ class Gameboard {
         (ship) => ship.number === this.board[y][x],
       );
       hitShip.hitsTaken++;
+      this.board[y][x] = this.board[y][x].concat(",", "O");
 
-      this.board[y][x] = "O";
+      //Mark as sunk if it was the last cell of the ship
+      if (hitShip.isSunk()) {
+        this.#markShipAsSunk(hitShip.number);
+      }
     }
   }
 
@@ -147,6 +156,21 @@ class Gameboard {
     }
 
     return true;
+  }
+
+  /**
+   * Marks all cells of the ship as sunk ("S") on the board
+   * @param {Number} shipNumber The number of the ship to mark as sunk
+   */
+  #markShipAsSunk(shipNumber) {
+    let y = this.board.findIndex((row) => row.includes(`${shipNumber},O`));
+
+    while (y !== -1) {
+      const x = this.board[y].indexOf(`${shipNumber},O`);
+      this.board[y][x] = "S";
+
+      y = this.board.findIndex((row) => row.includes(`${shipNumber},O`));
+    }
   }
 }
 

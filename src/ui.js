@@ -69,15 +69,21 @@ class UI {
         cell.dataset.x = x;
         cell.dataset.y = y;
 
-        switch (gameboardData[y][x]) {
+        const gameboardDataString = gameboardData[y][x];
+        //Recolor hit ship
+        if (gameboardDataString.includes("O"))
+          cell.style.backgroundColor = "red";
+        switch (gameboardDataString) {
           case "E":
             break;
-          case "O":
-            cell.style.backgroundColor = "red";
-            break;
+          //Recolor missed cell
           case "X":
             cell.style.backgroundColor = "blue";
             break;
+          case "S":
+            cell.style.backgroundColor = "yellow";
+            break;
+          //Recolor ship if not set to hidden
           default:
             if (!shipsHidden) cell.style.backgroundColor = "grey";
         }

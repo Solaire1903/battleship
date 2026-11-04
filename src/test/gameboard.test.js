@@ -194,9 +194,9 @@ describe("Function Test: receiveAttack", () => {
     gameboard.receiveAttack(0, 0);
     gameboard.receiveAttack(0, 2);
     expect(gameboard.board[0]).toEqual([
-      "O",
+      "1,O",
       "1",
-      "O",
+      "1,O",
       "1",
       "1",
       "E",
@@ -218,7 +218,7 @@ describe("Function Test: receiveAttack", () => {
       "2",
       "2",
       "2",
-      "O",
+      "2,O",
     ]);
     expect(gameboard.ships[1].hitsTaken).toBe(1);
   });
