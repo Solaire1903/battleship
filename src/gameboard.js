@@ -1,4 +1,5 @@
 import Ship from "./ship.js";
+import getRandomInt from "./random-number.js";
 
 /**
  * Represents a player's gameboard
@@ -20,9 +21,10 @@ class Gameboard {
    * @param {Boolean} isHorizontal Should be true if the ship is to be placed
    * horizontally
    * @param {Number} shipLength The length of the ship
+   * @return True if ship was successfully placed, false otherwise
    */
   placeNewShip(y, x, isHorizontal, shipLength) {
-    if (!this.#canPlaceShip(y, x, isHorizontal, shipLength)) return;
+    if (!this.#canPlaceShip(y, x, isHorizontal, shipLength)) return false;
 
     const shipNumber = (this.ships.length + 1).toString();
     if (isHorizontal) {
@@ -36,6 +38,29 @@ class Gameboard {
     }
 
     this.ships.push(new Ship(shipLength, shipNumber));
+    return true;
+  }
+
+  /**
+   * Places all ships in random locations, until the board has 5 ships.
+   * Only works when there are no ships on the board yet
+   */
+  placeAllShipsRandomly() {
+    if (this.ships.length !== 0) return;
+
+    let shipLength = 2;
+    while (this.ships.length < 5) {
+      const randomY = getRandomInt(0, 9);
+      const randomX = getRandomInt(0, 9);
+      const randomOrientation = Math.random() < 0.5;
+
+      if (this.placeNewShip(randomY, randomX, randomOrientation, shipLength)) {
+        shipLength++;
+
+        //Keep shipLength at the third ship, because two ships of length 3 need to be placed
+        if (this.ships.length === 2) shipLength--;
+      }
+    }
   }
 
   /**

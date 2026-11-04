@@ -6,7 +6,7 @@ class UI {
    * Constructor
    */
   constructor() {
-    this.playerTurn;
+    this.playerTurn = 1;
   }
 
   /**

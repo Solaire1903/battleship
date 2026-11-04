@@ -32,6 +32,12 @@ const updateBoard = (y, x, playerNumber) => {
 const loadApp = () => {
   ui.renderInitialBoards();
 
+  player1.gameboard.placeAllShipsRandomly();
+  player2.gameboard.placeAllShipsRandomly();
+
+  console.log(player1.gameboard.ships);
+  console.log(player2.gameboard.ships);
+
   ui.renderGameboard(player1.gameboard.board, 1, false);
   ui.renderGameboard(player2.gameboard.board, 2, true);
 
