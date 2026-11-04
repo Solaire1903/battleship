@@ -78,7 +78,7 @@ header {
   background-color: inherit;
 }
 
-.ship-cell:hover {
+#player-2-ship-area > .ship-cell:hover {
   background-color: var(--ship-area-color-hover);
 }
 

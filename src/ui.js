@@ -3,6 +3,13 @@
  */
 class UI {
   /**
+   * Constructor
+   */
+  constructor() {
+    this.playerTurn;
+  }
+
+  /**
    * Renders the initial numbers and letters of the boards, as well as
    * the empty ship areas, to the page
    */
@@ -50,8 +57,13 @@ class UI {
 
     for (let y = 0; y < 10; y++) {
       for (let x = 0; x < 10; x++) {
-        const cell = document.createElement("button");
-        cell.setAttribute("style", "button");
+        let cell;
+        if (playerNumber === 1) {
+          cell = document.createElement("div");
+        } else {
+          cell = document.createElement("button");
+          cell.setAttribute("style", "button");
+        }
         cell.classList.add("cell");
         cell.classList.add("ship-cell");
         cell.dataset.x = x;
@@ -82,32 +94,27 @@ class UI {
    */
   createEventListener(callback, listenerType) {
     switch (listenerType) {
-      case "GAMEBOARD1":
-        this.#createGameboardEventListener(callback, 1);
-        break;
-      case "GAMEBOARD2":
-        this.#createGameboardEventListener(callback, 2);
+      case "GAMEBOARD":
+        this.#createPlayer2GameboardEventListener(callback, 2);
         break;
     }
   }
 
   /**
-   * Creates a click event listener for a given players board
+   * Creates a click event listener for the computer player's board
    * @param {Function} updateBoard Callback function that updates the board
-   * @param {Number} playerNumber The number of the board's player
    */
-  #createGameboardEventListener(updateBoard, playerNumber) {
-    const gameboard = document.getElementById(
-      `player-${playerNumber}-ship-area`,
-    );
+  #createPlayer2GameboardEventListener(updateBoard) {
+    const gameboard = document.getElementById("player-2-ship-area");
 
     gameboard.addEventListener("click", (event) => {
-      if (event.target.className !== "cell ship-cell") return;
+      if (event.target.className !== "cell ship-cell" || this.playerTurn !== 1)
+        return;
 
       const cell = event.target;
       const x = cell.dataset.x;
       const y = cell.dataset.y;
-      updateBoard(y, x, playerNumber);
+      updateBoard(y, x, 2);
     });
   }
 }

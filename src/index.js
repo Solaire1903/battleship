@@ -35,8 +35,7 @@ const loadApp = () => {
   ui.renderGameboard(player1.gameboard.board, 1, false);
   ui.renderGameboard(player2.gameboard.board, 2, true);
 
-  ui.createEventListener(updateBoard, ListenerType.GAMEBOARD1);
-  ui.createEventListener(updateBoard, ListenerType.GAMEBOARD2);
+  ui.createEventListener(updateBoard, ListenerType.GAMEBOARD);
 };
 
 const player1 = new HumanPlayer();
