@@ -1,5 +1,5 @@
 import "./styles.css";
-import { HumanPlayer, ComputerPlayer } from "./player.js";
+import Player from "./player.js";
 import UI from "./ui.js";
 import ListenerType from "./listener-type.js";
 import getRandomInt from "./random-number.js";
@@ -50,8 +50,8 @@ const checkForWinner = () => {
  * Resets the boards and players for a new game
  */
 const startNewGame = () => {
-  player1 = new HumanPlayer();
-  player2 = new ComputerPlayer();
+  player1 = new Player();
+  player2 = new Player();
 
   player1.gameboard.placeAllShipsRandomly();
   player2.gameboard.placeAllShipsRandomly();
@@ -79,8 +79,8 @@ const loadApp = () => {
   startNewGame();
 };
 
-let player1 = new HumanPlayer();
-let player2 = new ComputerPlayer();
+let player1 = new Player();
+let player2 = new Player();
 const ui = new UI();
 
 loadApp();

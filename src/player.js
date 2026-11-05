@@ -12,14 +12,4 @@ class Player {
   }
 }
 
-/**
- * Represents a human player in the game
- */
-class HumanPlayer extends Player {}
-
-/**
- * Represents a computer player in the game
- */
-class ComputerPlayer extends Player {}
-
-export { HumanPlayer, ComputerPlayer };
+export default Player;

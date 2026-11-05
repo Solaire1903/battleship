@@ -9,6 +9,8 @@ class Gameboard {
    * Constructor
    */
   constructor() {
+    this.upperBound = 9;
+    this.lowerBound = 0;
     this.board = this.#createNewBoard();
     this.ships = [];
   }
@@ -50,8 +52,8 @@ class Gameboard {
 
     let shipLength = 2;
     while (this.ships.length < 5) {
-      const randomY = getRandomInt(0, 9);
-      const randomX = getRandomInt(0, 9);
+      const randomY = getRandomInt(this.lowerBound, this.upperBound);
+      const randomX = getRandomInt(this.lowerBound, this.upperBound);
       const randomOrientation = Math.random() < 0.5;
 
       if (this.placeNewShip(randomY, randomX, randomOrientation, shipLength)) {
@@ -72,7 +74,13 @@ class Gameboard {
    */
   receiveAttack(y, x) {
     //Coordinates are out of range
-    if (x < 0 || x > 9 || y < 0 || y > 9) return -1;
+    if (
+      x < this.lowerBound ||
+      x > this.upperBound ||
+      y < this.lowerBound ||
+      y > this.upperBound
+    )
+      return -1;
     //Coordinate was already hit
     if (
       this.board[y][x] === "X" ||
@@ -91,7 +99,7 @@ class Gameboard {
       const hitShip = this.ships.find(
         (ship) => ship.number === this.board[y][x],
       );
-      hitShip.hitsTaken++;
+      hitShip.hit();
       this.board[y][x] = this.board[y][x].concat(",", "O");
 
       //Mark as sunk if it was the last cell of the ship
@@ -112,17 +120,17 @@ class Gameboard {
   }
 
   /**
-   * Creates a new empty board with the size of 10 x 10
+   * Creates a new empty board
    * @returns The created board
    */
   #createNewBoard() {
     const board = [];
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i <= this.upperBound; i++) {
       board.push([]);
     }
 
     board.forEach((row) => {
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i <= this.upperBound; i++) {
         row.push("E");
       }
     });
@@ -141,7 +149,13 @@ class Gameboard {
    */
   #canPlaceShip(y, x, isHorizontal, shipLength) {
     //Coordinates out of range
-    if (x < 0 || x > 9 || y < 0 || y > 9) return false;
+    if (
+      x < this.lowerBound ||
+      x > this.upperBound ||
+      y < this.lowerBound ||
+      y > this.upperBound
+    )
+      return false;
 
     if (isHorizontal) {
       //Ship too long
