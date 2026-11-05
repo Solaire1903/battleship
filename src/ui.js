@@ -6,7 +6,7 @@ class UI {
    * Constructor
    */
   constructor() {
-    this.playerTurn = 1;
+    this.playerTurn;
   }
 
   /**
@@ -73,19 +73,21 @@ class UI {
         //Recolor hit ship
         if (gameboardDataString.includes("O"))
           cell.style.backgroundColor = "red";
-        switch (gameboardDataString) {
-          case "E":
-            break;
-          //Recolor missed cell
-          case "X":
-            cell.style.backgroundColor = "blue";
-            break;
-          case "S":
-            cell.style.backgroundColor = "yellow";
-            break;
-          //Recolor ship if not set to hidden
-          default:
-            if (!shipsHidden) cell.style.backgroundColor = "grey";
+        else {
+          switch (gameboardDataString) {
+            case "E":
+              break;
+            //Recolor missed cell
+            case "X":
+              cell.style.backgroundColor = "blue";
+              break;
+            case "S":
+              cell.style.backgroundColor = "yellow";
+              break;
+            //Recolor ship if not set to hidden
+            default:
+              if (!shipsHidden) cell.style.backgroundColor = "grey";
+          }
         }
 
         gameboard.appendChild(cell);
@@ -95,22 +97,26 @@ class UI {
 
   /**
    * Creates a new event listener
-   * @param {Function} callback A callback function to be used by the listener
    * @param {String} listenerType The type of event listener to create
+   * @param {Function} callbacks Optional callback functions to be used by the listener
    */
-  createEventListener(callback, listenerType) {
+  createEventListener(listenerType, ...callbacks) {
     switch (listenerType) {
       case "GAMEBOARD":
-        this.#createPlayer2GameboardEventListener(callback, 2);
+        this.#createPlayer2GameboardEventListener(callbacks, 2);
         break;
     }
   }
 
   /**
    * Creates a click event listener for the computer player's board
-   * @param {Function} updateBoard Callback function that updates the board
+   * @param {Function} callbacks Callback functions for the event logic
    */
-  #createPlayer2GameboardEventListener(updateBoard) {
+  #createPlayer2GameboardEventListener(callbacks) {
+    const playHumanTurn = callbacks[0];
+    const playComputerTurn = callbacks[1];
+    const checkForWinner = callbacks[2];
+
     const gameboard = document.getElementById("player-2-ship-area");
 
     gameboard.addEventListener("click", (event) => {
@@ -120,7 +126,36 @@ class UI {
       const cell = event.target;
       const x = cell.dataset.x;
       const y = cell.dataset.y;
-      updateBoard(y, x, 2);
+
+      const humanAttack = playHumanTurn(y, x);
+
+      //Check if human won with turn
+      let winner = checkForWinner();
+      if (winner !== -1) {
+        console.log(`Player 1 won!`);
+        this.playerTurn = 2;
+        return;
+      }
+
+      //If no empty spot is hit, human plays another turn
+      if (humanAttack !== 0) return;
+
+      //Computer turn starts here
+      this.playerTurn = 2;
+      let computerTurn = playComputerTurn();
+      //If computer hits a ship, it plays another turn
+      while (computerTurn === 1) {
+        //Check if computer won first
+        winner = checkForWinner();
+        if (winner !== -1) {
+          console.log(`Player 2 won!`);
+          return;
+        }
+
+        computerTurn = playComputerTurn();
+      }
+
+      this.playerTurn = 1;
     });
   }
 }

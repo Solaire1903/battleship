@@ -68,20 +68,24 @@ class Gameboard {
    * to the correct ship, or the empty spot
    * @param {Number} y The y-coordinate of the attack
    * @param {Number} x The x-coordinate of the attack
+   * @return -1 if attack was on invalid cell, 0 on empty cell and 1 on ship cell
    */
   receiveAttack(y, x) {
     //Coordinates are out of range
-    if (x < 0 || x > 9 || y < 0 || y > 9) return;
+    if (x < 0 || x > 9 || y < 0 || y > 9) return -1;
     //Coordinate was already hit
     if (
       this.board[y][x] === "X" ||
       this.board[y][x] === "S" ||
       this.board[y][x].includes("O")
     )
-      return;
+      return -1;
 
     //Empty spot hit
-    if (this.board[y][x] === "E") this.board[y][x] = "X";
+    if (this.board[y][x] === "E") {
+      this.board[y][x] = "X";
+      return 0;
+    }
     //Ship hit
     else {
       const hitShip = this.ships.find(
@@ -94,6 +98,8 @@ class Gameboard {
       if (hitShip.isSunk()) {
         this.#markShipAsSunk(hitShip.number);
       }
+
+      return 1;
     }
   }
 
