@@ -103,7 +103,7 @@ class UI {
   createEventListener(listenerType, ...callbacks) {
     switch (listenerType) {
       case "GAMEBOARD":
-        this.#createPlayer2GameboardEventListener(callbacks, 2);
+        this.#createPlayer2GameboardEventListener(callbacks);
         break;
     }
   }
@@ -119,7 +119,7 @@ class UI {
 
     const gameboard = document.getElementById("player-2-ship-area");
 
-    gameboard.addEventListener("click", (event) => {
+    gameboard.addEventListener("click", async (event) => {
       if (event.target.className !== "cell ship-cell" || this.playerTurn !== 1)
         return;
 
@@ -142,6 +142,10 @@ class UI {
 
       //Computer turn starts here
       this.playerTurn = 2;
+
+      //Wait for 500ms before playing computer turn
+      await new Promise((r) => setTimeout(r, 500));
+
       let computerTurn = playComputerTurn();
       //If computer hits a ship, it plays another turn
       while (computerTurn === 1) {
@@ -151,6 +155,9 @@ class UI {
           console.log(`Player 2 won!`);
           return;
         }
+
+        //Wait for 500ms before playing another computer turn
+        await new Promise((r) => setTimeout(r, 500));
 
         computerTurn = playComputerTurn();
       }
