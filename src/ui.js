@@ -62,7 +62,7 @@ class UI {
           cell = document.createElement("div");
         } else {
           cell = document.createElement("button");
-          cell.setAttribute("style", "button");
+          cell.setAttribute("type", "button");
         }
         cell.classList.add("cell");
         cell.classList.add("ship-cell");
@@ -102,10 +102,25 @@ class UI {
    */
   createEventListener(listenerType, ...callbacks) {
     switch (listenerType) {
+      case "NEW_GAME_BUTTON":
+        this.#createNewGameButtonEventListener(callbacks);
+        break;
       case "GAMEBOARD":
         this.#createPlayer2GameboardEventListener(callbacks);
         break;
     }
+  }
+
+  /**
+   * Creates a click event listener for the new game button
+   * @param {Function} callbacks Callback functions for the event logic
+   */
+  #createNewGameButtonEventListener(callbacks) {
+    const startNewGame = callbacks[0];
+
+    const newGameButton = document.getElementById("new-game-button");
+
+    newGameButton.addEventListener("click", startNewGame);
   }
 
   /**

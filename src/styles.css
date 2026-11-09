@@ -4,6 +4,7 @@
   --ship-area-color: beige;
   --ship-area-color-hover: rgb(241, 241, 177);
   --header-text-color: rgb(236, 183, 108);
+  --button-hover-color: rgb(27, 46, 91);
 }
 
 * {
@@ -38,7 +39,24 @@ header {
   background-color: var(--game-area-background-color);
 
   display: grid;
-  grid-template-rows: 1fr 10fr;
+  grid-template-rows: 1fr 6fr;
+}
+
+#menu-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#new-game-button {
+  padding: 10px;
+  color: var(--header-text-color);
+  background-color: var(--header-color);
+  border-radius: 5px;
+}
+
+#new-game-button:hover {
+  background-color: var(--button-hover-color);
 }
 
 #gameboard-area {

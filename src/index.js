@@ -67,7 +67,10 @@ const startNewGame = () => {
  * event listeners
  */
 const loadApp = () => {
+  ui.playerTurn = 2;
   ui.renderInitialBoards();
+  ui.renderGameboard(player1.gameboard.board, 1, false);
+  ui.renderGameboard(player2.gameboard.board, 2, true);
 
   ui.createEventListener(
     ListenerType.GAMEBOARD,
@@ -75,8 +78,7 @@ const loadApp = () => {
     playComputerTurn,
     checkForWinner,
   );
-
-  startNewGame();
+  ui.createEventListener(ListenerType.NEW_GAME_BUTTON, startNewGame);
 };
 
 let player1 = new Player();
