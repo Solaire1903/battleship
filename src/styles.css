@@ -44,8 +44,10 @@ header {
 
 #menu-area {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 20px;
 }
 
 #new-game-button {
@@ -53,6 +55,11 @@ header {
   color: var(--header-text-color);
   background-color: var(--header-color);
   border-radius: 5px;
+}
+
+#winner-announcement {
+  font-size: 1.2em;
+  font-weight: bold;
 }
 
 #new-game-button:hover {

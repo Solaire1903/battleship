@@ -112,6 +112,25 @@ class UI {
   }
 
   /**
+   * Renders an announcement of the winning player to the screen
+   * @param {Number} winnerNumber
+   */
+  #renderWinner(winnerNumber) {
+    const winnerAnnouncement = document.getElementById("winner-announcement");
+
+    winnerAnnouncement.textContent = `Player ${winnerNumber} wins!`;
+  }
+
+  /**
+   * Removes the winning announcement message
+   */
+  #clearWinner() {
+    const winnerAnnouncement = document.getElementById("winner-announcement");
+
+    winnerAnnouncement.textContent = "";
+  }
+
+  /**
    * Creates a click event listener for the new game button
    * @param {Function} callbacks Callback functions for the event logic
    */
@@ -120,7 +139,11 @@ class UI {
 
     const newGameButton = document.getElementById("new-game-button");
 
-    newGameButton.addEventListener("click", startNewGame);
+    newGameButton.addEventListener("click", () => {
+      this.#clearWinner();
+
+      startNewGame();
+    });
   }
 
   /**
@@ -147,7 +170,7 @@ class UI {
       //Check if human won with turn
       let winner = checkForWinner();
       if (winner !== -1) {
-        console.log(`Player 1 won!`);
+        this.#renderWinner(1);
         this.playerTurn = 2;
         return;
       }
@@ -167,7 +190,7 @@ class UI {
         //Check if computer won first
         winner = checkForWinner();
         if (winner !== -1) {
-          console.log(`Player 2 won!`);
+          this.#renderWinner(2);
           return;
         }
 
